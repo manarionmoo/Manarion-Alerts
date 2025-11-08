@@ -1,0 +1,41 @@
+# Node modules
+node_modules/
+npm-debug.log
+package-lock.json
+
+# Environment files
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# User-specific files (keep these local)
+# Don't commit userscript files or HTML rips
+*.user.js
+*element.html
+manarion-tab-debug-*.json
+Manarion*.user.js
+Guild*.user.js
+Market*.user.js
+
+# Only commit server files and documentation
+# Keep userscript files local
+
