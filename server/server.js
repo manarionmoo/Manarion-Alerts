@@ -2,7 +2,17 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
-app.use(cors());
+// Configure CORS with explicit options
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+}));
+
+// Handle preflight requests explicitly
+app.options('*', cors());
+
 app.use(express.json());
 
 // Root route - simple health check
