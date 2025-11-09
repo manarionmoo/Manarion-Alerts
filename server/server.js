@@ -3,15 +3,20 @@ const cors = require('cors');
 const app = express();
 
 // Configure CORS with explicit options
-app.use(cors({
+const corsOptions = {
   origin: '*', // Allow all origins
   methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: false
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: false,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
 
-// Handle preflight requests explicitly
-app.options('*', cors());
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handle preflight requests explicitly for all routes
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 
@@ -53,6 +58,9 @@ function generateUserId() {
   return `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
+// Handle OPTIONS for /api/drop
+app.options('/api/drop', cors(corsOptions));
+
 // POST /api/drop - Report an item drop
 app.post('/api/drop', (req, res) => {
   const { userId, userName, itemName, rarity, itemId } = req.body;
@@ -82,6 +90,9 @@ app.post('/api/drop', (req, res) => {
   
   res.json({ success: true, drop });
 });
+
+// Handle OPTIONS for /api/drops
+app.options('/api/drops', cors(corsOptions));
 
 // GET /api/drops - Get recent drops for items the user is tracking
 app.get('/api/drops', (req, res) => {
@@ -127,6 +138,9 @@ app.get('/api/drops', (req, res) => {
 
   res.json({ drops: filteredDrops });
 });
+
+// Handle OPTIONS for /api/subscribe
+app.options('/api/subscribe', cors(corsOptions));
 
 // POST /api/subscribe - Subscribe to specific items
 app.post('/api/subscribe', (req, res) => {
