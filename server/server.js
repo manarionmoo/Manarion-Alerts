@@ -5,6 +5,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root route - simple health check
+app.get('/', (req, res) => {
+  res.json({
+    service: 'Manarion Item Notifications Server',
+    status: 'running',
+    endpoints: {
+      'POST /api/drop': 'Report an item drop',
+      'GET /api/drops': 'Get recent drops for tracked items',
+      'POST /api/subscribe': 'Subscribe to specific items',
+      'GET /api/stats': 'Get server statistics'
+    },
+    version: '1.0.0'
+  });
+});
+
 // In-memory storage (in production, use a database)
 const drops = []; // Array of { userId, userName, itemName, rarity, timestamp, id }
 const userSubscriptions = {}; // userId -> Set of item names they're tracking
